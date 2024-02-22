@@ -1,0 +1,11 @@
+import cv2 as cv
+img = cv.imread('D:/tec/9no Semestre/IA/avatar.jpg',0)
+w,h = img.shape[:2]
+img2 = np.zeros((w, h), dtype='uint8')*150
+for i in range(w):
+    for j in range(h):
+        img2[int(i*0.5)+100, int (j*0.5)+100] = img[i,j]
+cv.imshow('img',img)
+cv.imshow('img2',img2)
+cv.waitKey(0)
+cv.destroyAllWindows()
