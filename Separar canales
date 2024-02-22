@@ -1,0 +1,14 @@
+img = cv.imread('D:/tec/9no Semestre/IA/avatar.jpg',1)
+w,h = img.shape[:2]
+img2 = np.zeros((w, h), dtype='uint8')
+r,g,b = cv.split(img)
+r = cv.merge([r, img2,img2])
+g = cv.merge([img2, g,img2])
+b = cv.merge([img2, img2,b])
+
+cv.imshow('r',r)
+cv.imshow('g',g)
+cv.imshow('b',b)
+
+cv.waitKey(0)
+cv.destroyAllWindows()
