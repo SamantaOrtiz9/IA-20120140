@@ -1,0 +1,80 @@
+<!doctype html>
+
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Jumbo</title>
+
+        <script src="lib/phaser.min.js"></script>
+        <script src="lib/synaptic.js"></script>
+
+        <script src="demo1.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    </head>
+
+    <body>
+
+        <canvas id="myChart" width="400" height="400"></canvas>
+
+        <script>
+        // Define variables for Chart.js
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart;
+        
+        // Create an empty array to store data points
+        var dataPoints = [];
+        
+        // Create a function to update the chart
+        function updateChart() {
+            if (myChart) {
+                myChart.destroy(); // Destroy the previous chart instance if exists
+            }
+            myChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Input-Output Relationship',
+                        data: dataPoints,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom'
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'left'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Modify your datosDeEntrenamiento function to collect data for the chart
+        function datosDeEntrenamiento(param_entrada){
+            console.log("Entrada",param_entrada[0]+" "+param_entrada[1]);
+            nnSalida = nnNetwork.activate(param_entrada);
+            var aire=Math.round( nnSalida[0]*100 );
+            var piso=Math.round( nnSalida[1]*100 );
+            console.log("Valor ","En el Aire %: "+ aire + " En el suelo %: " + piso );
+            
+            // Add data point to the array
+            dataPoints.push({x: param_entrada[0], y: param_entrada[1]});
+            
+            // Update the chart
+            updateChart();
+            
+            return nnSalida[0] >= nnSalida[1];
+        }
+    </script>
+
+    </body>
+</html>
+
